@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Restaurant Table Booking</title>
+    <link rel="stylesheet" href="{% static booking.css %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+                .navbar input[type="checkbox"],.navbar .hamburger-lines {
+            display: none;
+        }
+
+        .navbar {
+            box-shadow: 0px 5px 10px 0px #aaa;
+            position: fixed;
+            width: 100%;
+            background: rgb(57, 55, 55);
+            color: whitesmoke;
+            opacity: 0.9;
+            height: 70px;
+            z-index: 12;
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            height: 100px;
+            align-items: center;
+        }
+
+        .menu-items {
+            order: 2;
+            display: flex;
+            padding-left: 40px;
+            padding-right: 10px;
+        }   
+
+        .menu-items li {
+            list-style: none;
+            font-size: 15;
+            padding: 30px;
+        }
+
+        .menu-items a {
+            text-decoration: none;
+            color: whitesmoke;
+            font-weight: 500;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .menu-items a:hover {
+            color: white;
+            background-color: crimson;
+            background-size: 50px;
+            padding: 15px;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .logo {
+            order: 1;
+            font-size: 30;
+            margin-bottom: 20px;
+        }
+
+        body {
+            font-family: sans-serif;
+            margin-top: 10px;
+            margin-left: 400px;
+            margin-right: 400px;
+        }
+
+        #bookingForm {
+            background-image: url("{% static 'images/flex.jpg' %}");
+            color: white;
+            padding: 30px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            
+        }
+
+        h1 {
+            text-align: center;
+            width: 100%;
+            background: pink;
+            color: #000;
+            opacity: 0.6;
+            height: 50px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="pin"],
+        input[type="email"],
+        input[type="number"],
+        input[type="date"],
+        input[type="time"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        button {
+            background-color: pink;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: crimson;
+        }
+
+        #message {
+            color: red;
+            font-weight: bold;
+        }
+
+        .output{
+          background-image: url("{% static 'images/reserved.jpg' %}");
+          background-size:cover;
+          color:white;
+          float: right;
+          font-weight: 300;
+        }
+        .alert-container {
+            margin: 10px 0;
+        }
+
+        .alert {
+            padding: 15px;
+            background-color: #f44336; 
+            color: white;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            background-color: #4CAF50; 
+        }
+
+        .alert-error {
+            background-color: #f44336; 
+        }
+
+        .alert-warning {
+            background-color: #ff9800; 
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+function validateForm() {
+    const name = document.getElementById("name").value;
+    const phone = document.getElementById("phone_number").value;
+    const date = document.getElementById("date").value;
+    const time = document.getElementById("time").value;
+    const guests = document.getElementById("guests").value;
+    const message = document.getElementById("message");
+
+    try {
+        
+        if (!/^[a-zA-Z]+ [a-zA-Z]+$/.test(name)) {
+            throw new Error("Please enter a valid full name (no numbers allowed).");
+        }
+
+      
+        if (phone.length !== 10 || !/^[0-9]{10}$/.test(phone)) {
+            throw new Error("Please enter a valid 10-digit phone number.");
+        }
+
+        const today = new Date();
+        const selectedDate = new Date(date);
+        if (selectedDate < today) {
+            throw new Error("Please select a future date for your reservation.");
+        }
+
+    
+        if (guests < 1) {
+            throw new Error("Please enter a valid number of guests (minimum 1).");
+        }
+
+        
+        $.ajax({
+            url: "{% url 'check_availability' %}",  
+            method: "GET",
+            data: {
+                date: date,
+                time: time
+            },
+            success: function(response) {
+                if (response.is_booked) {
+                    alert("Sorry not available!");
+                } else {
+                    document.getElementById("bookingForm").submit(); 
+                }
+            },
+            error: function() {
+                alert("An error occurred while checking availability.");
+            }
+        });
+
+        return false;  
+    } catch (error) {
+       
+        message.innerHTML = error.message;
+        return false;
+    }
+}
+
+</script>
+    
+</head>
+<body>
+    {% if messages %}
+    <div class="alert-container">
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+    <div class="reservation">
+        <h1>Book Your Table</h1>
+        <form action="{% url 'bookingdata' %}" method="POST" autocomplete="off" id="bookingForm" onsubmit="return validateForm()">
+            {% csrf_token %}
+            
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name" required>
+            <br><br>
+            <label>Age</label>
+            <select name="age" class="form-control">
+              <option>--select--</option>
+                <option value="&lt; 12">Less than 12</option>
+                <option value="12 &lt; 18">12 to 17</option>
+                <option value="&gt; 18">Over 18</option>
+            </select>
+            <br><br>
+
+            <label>Gender</label>
+            <input type="radio" id="male" name="gender" value="Male">
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="Female">
+            <label for="female">Female</label>
+            <input type="radio" id="others" name="gender" value="Others">
+            <label for="others">Others</label>
+            <br><br>
+
+            <label for="phone_number">Phone number:</label>
+            <input type="tel" class="form-control" name="phone" id="phone_number" placeholder="Phone number" pattern="[0-9]{10}" title="Please enter a 10-digit phone number" required>
+            <br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" class="form-control" name="email" placeholder="Enter your email" required>
+            <br><br>
+            <label for="date">Date:</label>
+            <input type="date" name="date" class="form-control" id="date" required>
+            <br><br>
+            <label for="time">Time:</label>
+            <input type="time" name="time" class="form-control" id="time" required>
+            <br><br>
+            <label>Address</label><br>
+            <input type="text" placeholder="Enter your address" required name="address1" class="form-control">
+            <br><br>
+
+            <label for="guests">Number of Guests:</label>
+            <input type="number" min="1" id="guests" name="count" class="form-control" required>
+            <br><br>
+            <label for="Request">Special Request (Optional):</label><br>
+            <textarea id="Request" placeholder="Write your request here...!" name="SplRequest"></textarea>
+            <br><br>
+            <button type="submit">Book Now</button>
+        </form>
+    </div>
+
+    
+</body>
+</html>

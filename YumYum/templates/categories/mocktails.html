@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mocktails ✨🥂</title>
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <style>
+        /* Navbar Styling */
+        .navbar {
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            background: rgb(57, 55, 55);
+            opacity: 0.9;
+            height: 70px;
+            z-index: 12;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo a {
+            text-decoration: none; 
+            color: white;          
+            font-size: 30px;       
+        }
+
+        .logo a:hover {
+            color: crimson;
+        }
+
+        /* Body and Background */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url("{% static 'images/bg-1.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Showcase Area */
+        .showcase-area {
+            height: 50vh;
+            background-image: url("{% static 'images/mocktails-flex.avif' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .showcase-container h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Mocktails List */
+        .mocktail-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .mocktail-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 280px;
+            margin: 15px;
+            padding: 15px;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .mocktail-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .mocktail-item img {
+            max-width: 100%;
+            border-radius: 10px;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .mocktail-item h2 {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .mocktail-item p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .mocktail-item .price {
+            font-size: 1.3rem;
+            color: #28a745;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Select and Add to Cart Buttons */
+        .button-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .select-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .select-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .quantity-input {
+            width: 60px;
+            padding: 5px;
+            margin-left: 10px; 
+            text-align: center;
+            font-size: 1rem;
+            display: none;
+        }
+
+        .common-add-to-cart {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 30px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: none; 
+            justify-self: center;
+            margin-left: auto; 
+            margin-right: auto; 
+            display: flex; 
+            justify-content: center; 
+            width: 100px; 
+        }
+
+        .common-add-to-cart:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <h1 class="logo"><i><b><a href="{% url 'index' %}">Yumm Yumm</a></b></i></h1>
+    </nav>
+    
+    <!-- Showcase Area -->
+    <section class="showcase-area" id="showcase">
+        <div class="showcase-container">
+            <h1 class="main-title">"Dive into our mocktails, where every sip is a splash of pure delight!"✨🥂</h1>
+        </div>
+    </section>
+
+    <!-- Mocktail Items List -->
+    <section class="mocktail-list">
+        {% for mocktail in mocktails %}
+            <div class="mocktail-item">
+                <img src="{{ mocktail.image.url }}" alt="{{ mocktail.name }}">
+                <h2>{{ mocktail.name }}</h2>
+                <p>{{ mocktail.description }}</p>
+                <div class="price">₹{{ mocktail.price }}</div>
+                <div class="button-container">
+                    <button class="select-button" onclick="showQuantityInput('{{ mocktail.id }}', '{{ mocktail.name }}')">Select</button>
+                    <input type="number" id="quantity-{{ mocktail.id }}" class="quantity-input" value="1" min="1">
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+
+    <div class="common-add-to-cart" id="common-add-to-cart" onclick="addToCart()">Add to Cart</div>
+
+    <script>
+        let selectedItems = {};
+
+        function showQuantityInput(mocktailId, mocktailName) {
+            const quantityInput = document.getElementById(`quantity-${mocktailId}`);
+            const commonAddToCartButton = document.getElementById("common-add-to-cart");
+
+            if (quantityInput.style.display === "none" || quantityInput.style.display === "") {
+                quantityInput.style.display = "inline-block"; // Show the quantity input
+                selectedItems[mocktailId] = mocktailName; // Store selected mocktail name
+            } else {
+                quantityInput.style.display = "none"; // Hide the quantity input
+                delete selectedItems[mocktailId]; // Remove from selected items if deselected
+            }
+
+            commonAddToCartButton.style.display = Object.keys(selectedItems).length > 0 ? "block" : "none";
+        }
+
+        function addToCart() {
+            let cartItems = '';
+            for (let id in selectedItems) {
+                const quantity = document.getElementById(`quantity-${id}`).value;
+                cartItems += `${selectedItems[id]} (Qty: ${quantity})\n`;
+            }
+            alert("Added to cart:\n" + cartItems);
+            // Clear selections after adding to cart
+            selectedItems = {};
+            document.querySelectorAll('.quantity-input').forEach(input => input.style.display = 'none');
+            document.getElementById("common-add-to-cart").style.display = "none";
+        }
+    </script>
+</body>
+</html>

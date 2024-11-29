@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <script>
+        $(document).ready(function(){
+            $('#carousel').carousel();
+        });
+    </script>
+</head>
+<body>
+<nav class="navbar">
+    <div class="navbar-container container">
+        <input type="checkbox">
+        <div class="hamburger-lines">
+            <span class="line line1"></span>
+            <span class="line line2"></span>
+            <span class="line line3"></span>
+        </div>
+
+        <ul class="menu-items">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#food">Category</a></li>
+            <li><a href="#testimonials">Testimonial</a></li>
+            <li><a href="#review">Review</a></li>
+            <li><a href="{% url 'booking' %}">Book now</a></li>
+        </ul>
+        <h1 class="logo" style="font-family: 'Times New Roman', Times, serif;"><i><b>Yumm Yumm</b></i></h1>
+    </div>
+</nav>
+
+
+<section id="home">
+    <div id="carousel" class="carousel slide" data-ride="carousel">
+        <ul class="carousel-indicators">
+            <li data-target="#carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel" data-slide-to="1"></li>
+            <li data-target="#carousel" data-slide-to="2"></li>
+        </ul>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static 'images/look1.jpg' %}" alt="classy" width="1100" height="500">
+                <div class="carousel-caption" style="color: white;">
+                    <h1>#GourmetExperience</h1>
+                    <p>Indulge in flavors that tell a story. 🍴✨</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/look2.jpg' %}" alt="stylish" width="1100" height="500">
+                <div class="carousel-caption" style="color: white;">
+                    <h1>#DineWithUs</h1>
+                    <p style="font-size: large;">Where every meal is a celebration. 🍷🍝</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/look3.jpg' %}" alt="clean" width="1100" height="500">
+                <div class="carousel-caption" style="color: white;">
+                    <h1>#CulinaryDelight</h1>
+                    <p>Savor the moment, one bite at a time.🌟</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carousel" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#carousel" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+    </div>
+</section>
+
+<section id="about" style="margin-top: 100px; padding: 100px ; background-color: #f9f9f9;">
+    <div class="container text-center" >
+        <h2 class="about-title" style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #333; letter-spacing: 2px; text-transform: uppercase; font-weight: bold;">
+            About Us
+        </h2>
+        <p class="about-subtitle" style="color: #777; font-size: 1.2rem; margin-top: 10px;">We've been making healthy food last for 10 years</p>
+        <div class="row align-items-center" style="margin-top: 40px;">
+            <div class="col-md-6 about-text">
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #555;">
+                    A healthy diet is essential for good health and nutrition. It protects you against many chronic diseases, such as heart disease, diabetes, and cancer. Eating a variety of foods and consuming less salt, sugars, and fats are key elements to maintaining a healthy lifestyle.
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #555;">
+                    At YumYum, we are committed to delivering meals that nourish your body while pleasing your palate. Every dish is crafted using the freshest ingredients and utmost care.
+                </p>
+                <a href="#food" class="btn btn-success btn-lg" style="margin-top: 20px;">Discover Our Menu</a>
+            </div>
+            <div class="col-md-6 about-img">
+                <img src="{% static 'images/aboutimg.jpg' %}" alt="Healthy Food" class="img-fluid" style="border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
+            </div>
+        </div>
+    </div>
+</section>
+
+    <section id="food" style="padding-top: 80px;">
+        <h2>Categories</h2>
+        <div class="food-container container">
+            <div class="food-type starters">
+                <div class="img-container">
+                    <img src="{% static 'images\starters.jpg' %}" alt="Startes" />
+                    <div class="img-content">
+                        <h3>Starters</h3>
+                        <a href="{% url 'starters' %}" class="btn btn-danger">Menu</a>
+                    </div>
+                </div>
+            </div>
+            <div class="food-type maincourse">
+                <div class="img-container">
+                    <img src="{% static 'images\maincourse.jpg' %}" alt="Main course" />
+                    <div class="img-content">
+                        <h3>Main course</h3>
+                        <a href="{% url 'maincourse' %}" class="btn btn-danger">Menu</a>
+                    </div>
+                </div>
+            </div>
+            <div class="food-type desserts">
+                <div class="img-container">
+                    <img src="{% static 'images\dessert.jpg' %}" alt="Desserts" />
+                    <div class="img-content">
+                        <h3>Desserts</h3>
+                        <a href="{% url 'desserts' %}" class="btn btn-danger">Menu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="food-container container">
+            
+            <div class="food-type Gelatos">
+                <div class="img-container">
+                    <img src="{% static 'images\gelatos.jpg' %}" alt="Gelatos" />
+                    <div class="img-content">
+                        <h3>Gelatos</h3>
+                        <a href="{% url 'gelatos' %}" class="btn btn-danger">Menu</a>
+                    </div>
+                </div>
+            </div>
+            <div class="food-type mocktails">
+                <div class="img-container">
+                    <img src="{% static 'images\mocktail.jpg' %}" alt="Mocktails" />
+                    <div class="img-content">
+                        <h3>Mocktails</h3>
+                        <a href="{% url 'mocktails' %}" class="btn btn-danger">Menu</a>
+                    </div>
+                </div>
+            </div>
+            <div class="food-type shakes">
+                <div class="img-container">
+                    <img src="{% static 'images\shakes.jpg' %}" alt="Shakes" />
+                    <div class="img-content">
+                        <h3>Shakes</h3>
+                        <a href="{% url 'shakes' %}" class="btn btn-danger">Menu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials">
+        <h2 class="testimonial-title">What Our Customers View....!</h2>
+        <div class="testimonial-container container">
+            <div class="testimonial-box">
+                <div class="customer-detail">
+                    <div class="customer-photo">
+                        <img src="{% static 'images\shivangi joshi.jpeg' %}" alt="" />
+                        <p class="customer-name">Shivangi joshi</p>
+                    </div>
+                </div>
+                <div class="star-rating">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                </div>
+                <p class="testimonial-text">
+                    “The food here is absolutely delicious! Every dish we tried was bursting with flavor and cooked to perfection. Highly recommend the desserts.”
+                </p>
+
+            </div>
+            <div class="testimonial-box">
+                <div class="customer-detail">
+                    <div class="customer-photo">
+                        <img src="{% static 'images\jannat zubair.jpg' %}" alt="" />
+                        <p class="customer-name">Jannat Zubair</p>
+                    </div>
+                </div>
+                <div class="star-rating">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                </div>
+                <p class="testimonial-text">
+                    “Hands down, some of the best food I've had recently! They use the freshest ingredients and make sure each dish is done the right way. Must try!” 
+                </p>
+
+            </div>
+            <div class="testimonial-box">
+                <div class="customer-detail">
+                    <div class="customer-photo">
+                        <img src="{% static 'images\vikram singh.jpg' %}" alt="" >
+                        <p class="customer-name">Vikram Singh Chauhan</p>
+                    </div>
+                </div>
+                <div class="star-rating">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                </div>
+                <p class="testimonial-text">
+                    “I'm still dreaming about my meal at this restaurant! Each bite was a delight, and the presentation just blew us away. Don't miss out on trying their signature dish.”
+                </p>
+
+            </div>
+        </div>
+    </section>
+    <section id="review">
+        <div class="review-container container">
+            <div class="review-img">
+                <img src="https://i.postimg.cc/1XvYM67V/restraunt2.jpg" alt="">
+            </div>
+    
+            <div class="form-container">
+                <h2>Write your view</h2>
+                <form id="reviewForm" method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="E-Mail" required>
+                    <textarea name="message" cols="30" rows="6" placeholder="Type Your Message" required></textarea>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Thank You Alert -->
+    <div id="thankYouAlert" style="display: none;">
+        <div class="alert-box">
+            <p>Thank you for your review!</p>
+            <button id="closeAlert">Close</button>
+        </div>
+    </div>
+    
+   
+    
+    <script>
+        document.getElementById('reviewForm').addEventListener('submit', function(event) {
+            event.preventDefault();  
+    
+           
+            const formData = new FormData(this);
+    
+          
+            fetch("{% url 'submit_review' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                   
+                    document.getElementById('thankYouAlert').style.display = 'flex';
+                } else {
+                    alert('There was an issue submitting your review. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    
+        
+        document.getElementById('closeAlert').addEventListener('click', function() {
+            document.getElementById('thankYouAlert').style.display = 'none';
+        });
+    </script>
+    
+    
+    <footer id="footer">
+        <h2>Restaurant &copy; all rights reserved</h2>
+    </footer>
+</html>
+</body>
+</html>

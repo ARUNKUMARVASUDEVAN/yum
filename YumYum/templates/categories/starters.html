@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starters ✨</title>
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <style>
+        /* Navbar Styling */
+        .logo a {
+            text-decoration: none; 
+            color: white;          
+            font-size: 30px;       
+        }
+
+        .logo a:hover {
+            color: crimson;
+        }
+
+        .navbar {
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            background: rgb(57, 55, 55);
+            opacity: 0.9;
+            height: 70px;
+            z-index: 12;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo {
+            order: 1;
+            font-size: 30px;
+            margin-bottom: 20px;
+            color: aliceblue;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url("{% static 'images/bg-1.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .showcase-area {
+            height: 50vh;
+            margin: auto;
+            background-image: url("{% static 'images/starters-flex.avif' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .showcase-container h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .starter-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .starter-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 280px;
+            margin: 15px;
+            padding: 15px;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .starter-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .starter-item img {
+            max-width: 100%;
+            border-radius: 10px;
+            height: 200px;
+        }
+
+        .starter-item h2 {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .starter-item p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .starter-item .price {
+            font-size: 1.3rem;
+            color: #28a745;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Select and Add to Cart Buttons */
+        .button-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .select-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .select-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .quantity-input {
+            width: 60px;
+            padding: 5px;
+            margin-left: 10px; /* Space between button and input */
+            text-align: center;
+            font-size: 1rem;
+            display: none; /* Initially hidden */
+        }
+
+        .common-add-to-cart {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 30px; /* Space above the button */
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: none; /* Initially hidden */
+            justify-self: center;
+            margin-left: auto; /* Centering the button */
+            margin-right: auto; /* Centering the button */
+            display: flex; /* To enable flex properties */
+            justify-content: center; /* Centering */
+            width: 100px; /* Fixed width */
+        }
+
+        .common-add-to-cart:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1 class="logo" style="color: white;"><i><b><a href="{% url 'index' %}">Yumm Yumm</a></b></i></h1>
+    </nav>
+    
+    <section class="showcase-area" id="showcase">
+        <div class="showcase-container">
+            <h1 class="main-title" id="home">"Start your meal with our delicious starters!"</h1>
+        </div>
+    </section>
+
+    <section class="starter-list">
+        {% for starter in starters %}
+            <div class="starter-item">
+                <img src="{{ starter.image.url }}" alt="{{ starter.name }}">
+                <h2>{{ starter.name }}</h2>
+                <p>{{ starter.description }}</p>
+                <div class="price">&#8377;{{ starter.price }}</div>
+                <div class="button-container">
+                    <button class="select-button" onclick="showQuantityInput('{{ starter.id }}', '{{ starter.name }}')">Select</button>
+                    <input type="number" id="quantity-{{ starter.id }}" class="quantity-input" value="1" min="1">
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+
+    <div class="common-add-to-cart" id="common-add-to-cart" onclick="addToCart()">Add to Cart</div>
+
+    <script>
+        let selectedItems = {};
+
+        function showQuantityInput(starterId, starterName) {
+            const quantityInput = document.getElementById(`quantity-${starterId}`);
+            const commonAddToCartButton = document.getElementById("common-add-to-cart");
+
+            if (quantityInput.style.display === "none" || quantityInput.style.display === "") {
+                quantityInput.style.display = "inline-block"; // Show the quantity input
+                selectedItems[starterId] = starterName; // Store selected starter name
+            } else {
+                quantityInput.style.display = "none"; // Hide the quantity input
+                delete selectedItems[starterId]; // Remove from selected items if deselected
+            }
+
+            commonAddToCartButton.style.display = Object.keys(selectedItems).length > 0 ? "block" : "none";
+        }
+
+        function addToCart() {
+            let cartItems = '';
+            for (let id in selectedItems) {
+                const quantity = document.getElementById(`quantity-${id}`).value;
+                cartItems += `${selectedItems[id]} (Qty: ${quantity})\n`;
+            }
+            alert("Added to cart:\n" + cartItems);
+            // Clear selections after adding to cart
+            selectedItems = {};
+            document.querySelectorAll('.quantity-input').forEach(input => input.style.display = 'none');
+            document.getElementById("common-add-to-cart").style.display = "none";
+        }
+    </script>
+</body>
+</html>

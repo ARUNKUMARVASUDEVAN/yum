@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Desserts ✨</title>
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <style>
+        .navbar {
+            box-shadow: 0px 5px 10px 0px #aaa;
+            position: fixed;
+            width: 100%;
+            background: rgb(57, 55, 55);
+            opacity: 0.9;
+            height: 70px;
+            z-index: 12;
+        }
+
+        .logo {
+            font-size: 30px;
+            color: aliceblue;
+            margin: 0;
+        }
+
+        .logo a {
+            text-decoration: none; 
+            color: white;
+            font-size: 30px;       
+        }
+
+        .logo a:hover {
+            color: crimson;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url("{% static 'images/bg-1.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .showcase-area {
+            height: 50vh;
+            background-image: url("{% static 'images/dessert-flex.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .showcase-container h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-top: 30px;
+        }
+
+        .dessert-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .dessert-item {
+            border: 1px solid gray;
+            border-radius: 8px;
+            flex-grow: 1;
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+            max-width: 300px;
+            background-color: #fff;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .dessert-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .dessert-item img {
+            width: 100%;
+            border-radius: 8px;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .dessert-item h2 {
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+
+        .dessert-item p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .dessert-item .price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 10px;
+            color: green;
+        }
+
+        .select-container {
+            display: flex;
+            justify-content: center; /* Centering the select button and quantity input */
+            align-items: center; /* Aligning items vertically */
+            margin-top: 10px; /* Spacing from above */
+        }
+
+        .select-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .select-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Quantity Input */
+        .quantity-input {
+            width: 60px;
+            padding: 5px;
+            margin-left: 10px; /* Space between button and input */
+            display: none; /* Initially hidden */
+        }
+
+        /* Centered Add to Cart Button */
+        .add-to-cart-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: none; /* Initially hidden */
+            align-self: center; /* Center this button */
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+
+        /* Centering the Add to Cart Button's Container */
+        .add-to-cart-container {
+            display: flex;
+            justify-content: center; /* Centering the button */
+            margin-top: 20px; /* Spacing above the button */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1 class="logo"><i><b><a href="{% url 'index' %}">Yumm Yumm</a></b></i></h1>
+    </nav>
+
+    <section class="showcase-area" id="showcase">
+        <div class="showcase-container">
+            <h1 class="main-title">"Dessert time! Treat yourself to a little slice of heaven on a plate."</h1>
+        </div>
+    </section>
+
+    <section id="desserts">
+        <h2>Desserts</h2>
+        <div class="dessert-list">
+            {% for dessert in desserts %}
+                <div class="dessert-item">
+                    <img src="{{ dessert.image.url }}" alt="{{ dessert.name }}">
+                    <h2>{{ dessert.name }}</h2>
+                    <p>{{ dessert.description }}</p>
+                    <div class="price">&#8377;{{ dessert.price }}</div>
+                    <div class="select-container">
+                        <button class="select-btn" onclick="selectDessert('{{ dessert.id }}', '{{ dessert.name }}', '{{ dessert.price }}')">Select</button>
+                        <input type="number" id="quantity-{{ dessert.id }}" class="quantity-input" value="1" min="1">
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Centered Add to Cart Button -->
+        <div class="add-to-cart-container">
+            <button class="add-to-cart-btn" id="common-add-to-cart" onclick="addAllToCart()">Add All to Cart</button>
+        </div>
+    </section>
+
+    <script>
+        let cart = {};
+        let selectedItems = new Set(); // Track selected items
+
+        function selectDessert(dessertId, name, price) {
+            const quantityInput = document.getElementById(`quantity-${dessertId}`);
+            if (selectedItems.has(dessertId)) {
+                selectedItems.delete(dessertId); // Deselect if already selected
+                quantityInput.style.display = 'none'; // Hide quantity input
+                alert(name + " has been deselected!");
+            } else {
+                selectedItems.add(dessertId); // Select item
+                quantityInput.style.display = 'block'; // Show quantity input
+                alert(name + " has been selected!");
+            }
+            toggleAddToCartButton();
+        }
+
+        function addAllToCart() {
+            selectedItems.forEach(dessertId => {
+                const quantityInput = document.getElementById(`quantity-${dessertId}`);
+                const quantity = parseInt(quantityInput.value) || 1; // Get quantity or default to 1
+                cart[dessertId] = (cart[dessertId] || 0) + quantity; // Initialize or increment quantity
+            });
+            alert("Selected items added to cart!");
+            selectedItems.clear(); // Clear selected items after adding to cart
+            toggleAddToCartButton(); // Hide the button again
+            document.querySelectorAll('.quantity-input').forEach(input => input.value = 1); // Reset quantities
+        }
+
+        function toggleAddToCartButton() {
+            const commonButton = document.getElementById("common-add-to-cart");
+            commonButton.style.display = selectedItems.size > 0 ? 'block' : 'none'; // Show button if there are selected items
+        }
+    </script>
+</body>
+</html>
